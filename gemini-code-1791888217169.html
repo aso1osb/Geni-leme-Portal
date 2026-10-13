@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASO 1. OSB - 7. Kısım Genişleme Sahası</title>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f0f7ff;
+      color: #0f2744;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    header {
+      width: 100%;
+      background-color: #ffffff;
+      border-bottom: 1px solid #bfdbfe;
+      box-shadow: 0 1px 3px rgba(2, 132, 199, 0.06);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-box {
+      height: 48px;
+      padding: 4px 8px;
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-box img {
+      max-height: 100%;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .header-divider {
+      width: 1px;
+      height: 32px;
+      background-color: #93c5fd;
+    }
+
+    .header-text span {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #0284c7;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .header-text h1 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #034f84;
+      line-height: 1.2;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 20px;
+      width: 100%;
+    }
+
+    .view-container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      width: 100%;
+    }
+
+    .cards-grid-sub {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      border-radius: 20px;
+      padding: 36px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.06);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 30px rgba(2, 132, 199, 0.16);
+      border-color: #0284c7;
+    }
+
+    .icon-box {
+      width: 88px;
+      height: 88px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      background-color: #e0f2fe;
+      transition: all 0.25s ease;
+    }
+
+    .icon-box svg {
+      width: 44px;
+      height: 44px;
+      stroke: #0284c7;
+      transition: all 0.25s ease;
+    }
+
+    .card:hover .icon-box { background-color: #0284c7; }
+    .card:hover .icon-box svg { stroke: #ffffff; }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #034f84;
+      text-align: center;
+    }
+
+    .subview-header {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      background-color: #ffffff;
+      border: 1px solid #93c5fd;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #0284c7;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(2, 132, 199, 0.05);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background-color: #e0f2fe;
+      color: #0369a1;
+      transform: translateX(-3px);
+    }
+
+    .subview-badge {
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      color: #0369a1;
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+    }
+
+    /* Dashboard Stilleri */
+    .dashboard-container {
+      width: 100%;
+      max-width: 1300px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .dash-topbar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .filter-card {
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.04);
+      flex-wrap: wrap;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .selector-group { display: flex; align-items: center; gap: 12px; }
+    .selector-group label { font-size: 0.9rem; font-weight: 700; color: #034f84; }
+    .select-input { padding: 8px 14px; border: 1.5px solid #0284c7; border-radius: 10px; font-size: 0.92rem; font-weight: 600; color: #034f84; background-color: #f0f9ff; cursor: pointer; outline: none; }
+    .meta-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge { font-size: 0.8rem; font-weight: 700; padding: 6px 14px; border-radius: 20px; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+
+    .cum-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; }
+    .cum-card { background: #ffffff; border: 1px solid #bfdbfe; border-radius: 14px; padding: 14px 18px; display: flex; align-items: center; gap: 14px; box-shadow: 0 2px 6px rgba(2, 132, 199, 0.03); }
+    .cum-icon { width: 44px; height: 44px; border-radius: 10px; background: #e0f2fe; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .cum-icon svg { width: 24px; height: 24px; stroke: #0284c7; }
+    .cum-info { display: flex; flex-direction: column; }
+    .cum-label { font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.04em; }
+    .cum-value { font-size: 1.12rem; font-weight: 800; color: #034f84; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; width: 100%; }
+    .kpi-card { background: #ffffff; border: 1px solid #bfdbfe; border-radius: 16px; padding: 18px; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.04); display: flex; flex-direction: column; justify-content: space-between; border-top: 4px solid #0284c7; }
+    .kpi-card:nth-child(1) { border-top-color: #38bdf8; }
+    .kpi-card:nth-child(2) { border-top-color: #0284c7; }
+    .kpi-card:nth-child(3) { border-top-color: #0369a1; }
+    .kpi-card:nth-child(4) { border-top-color: #075985; }
+
+    .kpi-title { font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .kpi-value { font-size: 1.35rem; font-weight: 800; color: #034f84; margin-bottom: 4px; }
+    .kpi-sub { font-size: 0.76rem; color: #64748b; }
+
+    .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; width: 100%; }
+    .chart-card { background: #ffffff; border: 1px solid #bfdbfe; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.04); }
+    .chart-card h3 { font-size: 0.95rem; font-weight: 700; color: #034f84; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
+    .chart-wrapper { position: relative; height: 270px; width: 100%; }
+
+    .table-card { background: #ffffff; border: 1px solid #bfdbfe; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.04); width: 100%; }
+    .table-card h3 { font-size: 0.95rem; font-weight: 700; color: #034f84; margin-bottom: 14px; }
+    .table-container { overflow-x: auto; max-height: 380px; border: 1px solid #e0f2fe; border-radius: 12px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: right; }
+    thead { background: #f0f9ff; position: sticky; top: 0; z-index: 10; }
+    th { padding: 10px 12px; font-weight: 700; color: #0369a1; border-bottom: 2px solid #bfdbfe; }
+    th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align: left; }
+    td { padding: 9px 12px; border-bottom: 1px solid #f0f9ff; color: #1e293b; }
+    tr:hover { background-color: #e0f2fe; cursor: pointer; }
+    tr.selected-row { background-color: #bae6fd !important; font-weight: 700; }
+
+    /* İlerleme Raporları PDF Listesi */
+    .report-list-container { width: 100%; max-width: 900px; display: flex; flex-direction: column; gap: 16px; }
+    .report-card { background: #ffffff; border: 1px solid #bfdbfe; border-radius: 18px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 3px 10px rgba(2, 132, 199, 0.04); gap: 16px; flex-wrap: wrap; }
+    .report-info { display: flex; align-items: center; gap: 16px; }
+    .pdf-badge-icon { width: 50px; height: 50px; background-color: #fee2e2; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #ef4444; flex-shrink: 0; }
+    .report-meta h3 { font-size: 1.05rem; font-weight: 700; color: #034f84; margin-bottom: 4px; }
+    .report-meta p { font-size: 0.82rem; color: #64748b; }
+    .btn-view { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 10px; font-size: 0.88rem; font-weight: 700; background-color: #0284c7; color: #ffffff; border: none; cursor: pointer; transition: all 0.2s; }
+    .btn-view:hover { background-color: #0369a1; transform: translateY(-2px); }
+
+    /* Tam Ekran PDF Modal */
+    .pdf-modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+    .pdf-modal-backdrop.active { display: flex; }
+    .pdf-modal-box { background: #ffffff; border-radius: 20px; width: 100%; max-width: 1100px; height: 90vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25); }
+    .pdf-modal-header { padding: 14px 20px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; background: #f8fafc; }
+    .pdf-modal-header h3 { font-size: 1rem; font-weight: 700; color: #034f84; }
+    .pdf-modal-close { background: none; border: none; font-size: 1.6rem; color: #64748b; cursor: pointer; line-height: 1; }
+    .pdf-frame { flex: 1; width: 100%; height: 100%; border: none; }
+
+    footer { background-color: #ffffff; border-top: 1px solid #bfdbfe; text-align: center; padding: 14px; font-size: 0.8rem; color: #64748b; }
+
+    @media (max-width: 1024px) {
+      .cum-summary-grid { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .charts-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .cards-grid, .cards-grid-sub { grid-template-columns: 1fr; max-width: 320px; }
+      .kpi-grid { grid-template-columns: 1fr; }
+      .header-container { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .header-divider { display: none; }
+      .subview-header { max-width: 320px; }
+      .report-card { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Üst Logo & Başlık -->
+  <header>
+    <div class="header-container">
+      <div class="header-left">
+        <div class="logo-box">
+          <img src="logo.png" alt="ASO 1. OSB" onerror="this.style.display='none'">
+        </div>
+        <div class="header-divider"></div>
+        <div class="header-text">
+          <span>ASO 1. OSB</span>
+          <h1 id="headerMainTitle">7. Kısım Genişleme Sahası</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+    <!-- 1. GÖRÜNÜM: ANA MENÜ (3 KART) -->
+    <div id="mainView" class="view-container">
+      <div class="cards-grid">
+        <a href="https://aso1osb.github.io/sincan.aso.parsel/" target="_blank" rel="noopener noreferrer" class="card">
+          <div class="icon-box">
+            <svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <div class="card-title">Parsel Sorgu</div>
+        </a>
+
+        <!-- Müşavir -->
+        <div onclick="showMusavirSubmenu()" class="card">
+          <div class="icon-box">
+            <svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <path d="M9 11l3 3L22 4"></path>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+          </div>
+          <div class="card-title">Müşavir</div>
+        </div>
+
+        <!-- Yüklenici -->
+        <div onclick="showYukleniciSubmenu()" class="card">
+          <div class="icon-box">
+            <svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"></path>
+              <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"></path>
+              <path d="M4 15v-3a8 8 0 0 1 16 0v3"></path>
+            </svg>
+          </div>
+          <div class="card-title">Yüklenici</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. GÖRÜNÜM: YÜKLENİCİ ALT MENÜSÜ -->
+    <div id="yukleniciSubView" class="view-container" style="display: none;">
+      <div class="subview-header" style="max-width: 600px;">
+        <button onclick="showMainMenu()" class="back-btn">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Ana Menüye Dön
+        </button>
+        <span class="subview-badge">Yüklenici Modülü</span>
+      </div>
+
+      <div class="cards-grid-sub">
+        <div onclick="showHakedisDashboardView()" class="card">
+          <div class="icon-box">
+            <svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <div class="card-title">Hakediş</div>
+        </div>
+
+        <div onclick="showIlerlemeReportsView()" class="card">
+          <div class="icon-box">
+            <svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+              <path d="M3 20h18"></path>
+            </svg>
+          </div>
+          <div class="card-title">İlerleme Raporları</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. GÖRÜNÜM: MÜŞAVİR ALT MENÜSÜ -->
+    <div id="musavirSubView" class="view-container" style="display: none;">
+      <div class="subview-header" style="max-width: 600px;">
+        <button onclick="showMainMenu()" class="back-btn">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Ana Menüye Dön
+        </button>
+        <span class="subview-badge">Müşavir Modülü</span>
+      </div>
+
+      <div class="cards-grid-sub">
+        <!-- Müşavir Hakediş Butonu -->
+        <div onclick="showMusavirHakedisDashboardView()" class="card">
+          <div class="icon-box">
+            <svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <div class="card-title">Hakediş</div>
+        </div>
+
+        <div onclick="alert('Kalite & Testler modülü yapım aşamasındadır.')" class="card">
+          <div class="icon-box">
+            <svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <path d="M10 2v7.31L4.69 19.04A2 2 0 0 0 6.44 22h11.12a2 2 0 0 0 1.75-2.96L14 9.31V2"></path>
+              <line x1="8.5" y1="2" x2="15.5" y2="2"></line>
+              <line x1="7" y1="16" x2="17" y2="16"></line>
+            </svg>
+          </div>
+          <div class="card-title">Kalite & Testler</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. GÖRÜNÜM: YÜKLENİCİ HAKEDİŞ DASHBOARD (1-28) -->
+    <div id="hakedisDashboardView" class="dashboard-container" style="display: none;">
+      <div class="dash-topbar">
+        <button onclick="showYukleniciSubmenu()" class="back-btn">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Yüklenici Menüsüne Dön
+        </button>
+        <span class="subview-badge">Yüklenici Hakediş Yönetici Paneli</span>
+      </div>
+
+      <div class="filter-card">
+        <div class="selector-group">
+          <label for="hkSelect">İncelenen Hakediş:</label>
+          <select id="hkSelect" class="select-input" onchange="onHakedisChange(this.value)"></select>
+        </div>
+        <div class="meta-badges">
+          <div class="badge">Sözleşme: 6.430.440.000,00 TL[cite: 2]</div>
+          <div class="badge">Yüklenici: Söğüt İnşaat A.Ş.[cite: 2]</div>
+        </div>
+      </div>
+
+      <div class="cum-summary-grid">
+        <div class="cum-card">
+          <div class="cum-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
+          <div class="cum-info"><span class="cum-label">Kümülatif Baz Gerçekleşme</span><span class="cum-value" id="topKumBaz">0,00 TL</span></div>
+        </div>
+        <div class="cum-card">
+          <div class="cum-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
+          <div class="cum-info"><span class="cum-label">Kümülatif FF Gerçekleşmesi</span><span class="cum-value" id="topKumFF">0,00 TL</span></div>
+        </div>
+        <div class="cum-card">
+          <div class="cum-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+          <div class="cum-info"><span class="cum-label">Toplam Gerçekleşme (Baz + FF)</span><span class="cum-value" id="topKumToplam">0,00 TL</span></div>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-title">Bu Hakediş Baz Tutar (E)</div><div class="kpi-value" id="kpiBaz">0,00 TL</div><div class="kpi-sub" id="kpiBazKum">Kümülatif: 0,00 TL</div></div>
+        <div class="kpi-card"><div class="kpi-title">Fiyat Farkı Tutarı (F)</div><div class="kpi-value" id="kpiFiyatFarki">0,00 TL</div><div class="kpi-sub" id="kpiFfKum">Kümülatif FF: 0,00 TL</div></div>
+        <div class="kpi-card"><div class="kpi-title">Tahakkuk & Kesintiler</div><div class="kpi-value" id="kpiKesintiler">0,00 TL</div><div class="kpi-sub" id="kpiTahakkuk">Tahakkuk: 0,00 TL</div></div>
+        <div class="kpi-card"><div class="kpi-title">Ödenecek Net Tutar (S)</div><div class="kpi-value" id="kpiNet">0,00 TL</div><div class="kpi-sub" id="kpiNetYazi">Net Hakediş</div></div>
+      </div>
+
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>Hakediş Gelişimi (Grafikten Seçebilirsiniz) <span style="font-size:0.8rem; font-weight:normal; color:#0284c7;">Hk 1 - 28</span></h3>
+          <div class="chart-wrapper"><canvas id="barTrendChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Hakediş Dağılımı <span id="donutSubtitle" style="font-size:0.8rem; font-weight:normal; color:#0284c7;"></span></h3>
+          <div class="chart-wrapper"><canvas id="pieHakedisChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <h3>Hakediş Takip İcmal Tablosu</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Hk No</th>
+                <th>Tarih</th>
+                <th>Bu Hk. Baz Tutar (E)</th>
+                <th>Fiyat Farkı (F)</th>
+                <th>Toplam Tutar (G)</th>
+                <th>Kesintiler (R)</th>
+                <th>Net Ödeme (S)</th>
+              </tr>
+            </thead>
+            <tbody id="hakedisTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. GÖRÜNÜM: MÜŞAVİR HAKEDİŞ DASHBOARD (1 - 41) -->
+    <div id="musavirHakedisDashboardView" class="dashboard-container" style="display: none;">
+      
+      <div class="dash-topbar">
+        <button onclick="showMusavirSubmenu()" class="back-btn">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Müşavir Menüsüne Dön
+        </button>
+        <span class="subview-badge">Müşavirlik Hizmet Alımı Hakediş Paneli</span>
+      </div>
+
+      <div class="filter-card">
+        <div class="selector-group">
+          <label for="musavirHkSelect">İncelenen Hakediş:</label>
+          <select id="musavirHkSelect" class="select-input" onchange="onMusavirHakedisChange(this.value)"></select>
+        </div>
+        <div class="meta-badges">
+          <div class="badge">Müşavir: Su Yapı - Üçer İş Ortaklığı</div>
+          <div class="badge">Toplam Ödenen Net: 78.167.583,19 TL</div>
+        </div>
+      </div>
+
+      <!-- Kümülatif Metrikler (Müşavir) -->
+      <div class="cum-summary-grid">
+        <div class="cum-card">
+          <div class="cum-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
+          <div class="cum-info"><span class="cum-label">Kümülatif Hakediş Tutarı (A)</span><span class="cum-value" id="topMusavirKumHk">0,00 TL</span></div>
+        </div>
+        <div class="cum-card">
+          <div class="cum-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
+          <div class="cum-info"><span class="cum-label">Kümülatif Fiyat Farkı</span><span class="cum-value" id="topMusavirKumFF">0,00 TL</span></div>
+        </div>
+        <div class="cum-card">
+          <div class="cum-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+          <div class="cum-info"><span class="cum-label">Kümülatif Net Ödeme</span><span class="cum-value" id="topMusavirKumNet">0,00 TL</span></div>
+        </div>
+      </div>
+
+      <!-- 4 Dönemsel KPI Kartı -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-title">Uygulama Ayı Tutarı (C)</div>
+          <div class="kpi-value" id="kpiMusavirBaz">0,00 TL</div>
+          <div class="kpi-sub" id="kpiMusavirKumHk">Kümülatif: 0,00 TL</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Dönem Fiyat Farkı (H)</div>
+          <div class="kpi-value" id="kpiMusavirFF">0,00 TL</div>
+          <div class="kpi-sub" id="kpiMusavirGenelGider">Genel Gider FF: 0,00 TL</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Avans Kesintisi (D)</div>
+          <div class="kpi-value" id="kpiMusavirAvans">0,00 TL</div>
+          <div class="kpi-sub" id="kpiMusavirFarkEsas">FF Esas Tutar: 0,00 TL</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Ödenecek Net Tutar (J)</div>
+          <div class="kpi-value" id="kpiMusavirNet">0,00 TL</div>
+          <div class="kpi-sub" id="kpiMusavirTarih">Müşavire Net Ödeme</div>
+        </div>
+      </div>
+
+      <!-- Grafikler -->
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>Müşavirlik Hakediş Gelişimi (Grafikten Seçilebilir) <span style="font-size:0.8rem; font-weight:normal; color:#0284c7;">Hk 1 - 41</span></h3>
+          <div class="chart-wrapper"><canvas id="musavirTrendChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Hakediş Tutarı Dağılımı <span id="musavirDonutSubtitle" style="font-size:0.8rem; font-weight:normal; color:#0284c7;"></span></h3>
+          <div class="chart-wrapper"><canvas id="musavirPieChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- İcmal Tablosu -->
+      <div class="table-card">
+        <h3>Müşavirlik Hakediş Özet Tablosu (Sayfa No: 41)</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Hk No</th>
+                <th>Tarih</th>
+                <th>Uygulama Ayı Tutarı (C)</th>
+                <th>Avans Kesintisi (D)</th>
+                <th>Dönem Fiyat Farkı (H)</th>
+                <th>Kümülatif Hakediş (A)</th>
+                <th>Ödenecek Net Tutar (J)</th>
+              </tr>
+            </thead>
+            <tbody id="musavirTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 6. GÖRÜNÜM: İLERLEME RAPORLARI (PDF LİSTESİ) -->
+    <div id="ilerlemeReportsView" class="view-container" style="display: none;">
+      <div class="subview-header">
+        <button onclick="showYukleniciSubmenu()" class="back-btn">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Yüklenici Menüsüne Dön
+        </button>
+        <span class="subview-badge">İlerleme Raporları Arşivi</span>
+      </div>
+
+      <div class="report-list-container">
+        <div class="report-card">
+          <div class="report-info">
+            <div class="pdf-badge-icon">
+              <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+            </div>
+            <div class="report-meta">
+              <h3>Genel Proje Durum Raporu (05.10.2026)</h3>
+              <p>📅 05 Ekim 2026 • 1. Etap Kuzey Bölgesi Performans Analizi[cite: 38]</p>
+            </div>
+          </div>
+          <button onclick="openPdfViewer('ASO GENEL PROJE DURUM RAPORU 2026-10-05.pdf', 'Genel Proje Durum Raporu (05.10.2026)')" class="btn-view">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            Raporu Görüntüle
+          </button>
+        </div>
+
+        <div class="report-card">
+          <div class="report-info">
+            <div class="pdf-badge-icon">
+              <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+            </div>
+            <div class="report-meta">
+              <h3>Hakediş No: 28 Dosyası (Temmuz 2026)</h3>
+              <p>📅 31 Temmuz 2026 • İcmaller, Fiyat Farkı ve Yeşil Defter[cite: 2, 4, 26]</p>
+            </div>
+          </div>
+          <button onclick="openPdfViewer('ASO.28.HK_2026-Temmuz-Hakediş Dosyası.pdf', 'Hakediş No: 28 Dosyası (Temmuz 2026)')" class="btn-view">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            Raporu Görüntüle
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Tam Ekran PDF Okuyucu Modal -->
+  <div id="pdfModal" class="pdf-modal-backdrop">
+    <div class="pdf-modal-box">
+      <div class="pdf-modal-header">
+        <h3 id="pdfModalTitle">Rapor Önizleme</h3>
+        <button onclick="closePdfViewer()" class="pdf-modal-close">&times;</button>
+      </div>
+      <iframe id="pdfFrame" class="pdf-frame" src=""></iframe>
+    </div>
+  </div>
+
+  <footer>
+    © Ankara Sanayi Odası 1. Organize Sanayi Bölgesi
+  </footer>
+
+  <script>
+    // ---------------- YÜKLENİCİ HAKEDİŞ VERİLERİ (1-28) ----------------
+    const hakedisData = [
+      { no: 1,  date: "30.04.2024", baz: 25092062.63,  ff: 3684106.93,   toplam: 28776169.56,  kesinti: 7677073.72,  net: 21099095.84,  kumBaz: 25092062.63 },
+      { no: 2,  date: "31.05.2024", baz: 44855285.25,  ff: 6307973.34,   toplam: 51163258.60,  kesinti: 5116325.86,  net: 46046932.74,  kumBaz: 69947347.88 },
+      { no: 3,  date: "30.06.2024", baz: 54871353.37,  ff: 8357186.32,   toplam: 63228539.70,  kesinti: 6322853.96,  net: 56905685.74,  kumBaz: 124818701.25 },
+      { no: 4,  date: "31.07.2024", baz: 94816994.03,  ff: 17311656.90,  toplam: 112128650.93, kesinti: 24212865.10, net: 87915785.83,  kumBaz: 219635695.28 },
+      { no: 5,  date: "31.08.2024", baz: 136456426.20, ff: 26273494.76,  toplam: 162729920.96, kesinti: 29272992.10, net: 133456928.86, kumBaz: 356092121.48 },
+      { no: 6,  date: "30.09.2024", baz: 119353596.82, ff: 21901121.44,  toplam: 141254718.26, kesinti: 37366207.44, net: 103888510.82, kumBaz: 475445718.30 },
+      { no: 7,  date: "31.10.2024", baz: 140753913.90, ff: 28386457.00,  toplam: 169140370.90, kesinti: 29914037.10, net: 139226333.80, kumBaz: 616199632.20 },
+      { no: 8,  date: "30.11.2024", baz: 112833285.49, ff: 22933375.55,  toplam: 135766661.04, kesinti: 26576666.10, net: 109189994.94, kumBaz: 729032917.69 },
+      { no: 9,  date: "31.12.2024", baz: 109749862.99, ff: 23091235.43,  toplam: 132841098.42, kesinti: 26284109.84, net: 106556988.58, kumBaz: 838782780.68 },
+      { no: 10, date: "31.01.2025", baz: 141696735.32, ff: 37683944.78,  toplam: 179380680.10, kesinti: 30938068.02, net: 148442612.08, kumBaz: 980479516.00 },
+      { no: 11, date: "28.02.2025", baz: 107869584.86, ff: 29769428.86,  toplam: 137639013.72, kesinti: 26763901.38, net: 110875112.34, kumBaz: 1088349100.86 },
+      { no: 12, date: "31.03.2025", baz: 132167942.19, ff: 37706025.26,  toplam: 169873967.45, kesinti: 29987396.74, net: 139886570.71, kumBaz: 1220517043.05 },
+      { no: 13, date: "30.04.2025", baz: 106491464.04, ff: 34026720.85,  toplam: 140518184.89, kesinti: 16851818.48, net: 123666366.41, kumBaz: 1327008507.09 },
+      { no: 14, date: "31.05.2025", baz: 148825225.79, ff: 51004147.70,  toplam: 199829373.49, kesinti: 22782937.34, net: 177046436.15, kumBaz: 1475833732.88 },
+      { no: 15, date: "30.06.2025", baz: 89863103.58,  ff: 37764479.34,  toplam: 127627582.92, kesinti: 15562758.30, net: 112064824.62, kumBaz: 1565696836.46 },
+      { no: 16, date: "31.07.2025", baz: 138182083.54, ff: 65670800.15,  toplam: 203852883.69, kesinti: 23185288.36, net: 180667595.33, kumBaz: 1703878920.00 },
+      { no: 17, date: "31.08.2025", baz: 84711266.01,  ff: 40869592.79,  toplam: 125580858.80, kesinti: 15358085.88, net: 110222772.92, kumBaz: 1788590186.01 },
+      { no: 18, date: "30.09.2025", baz: 75882848.20,  ff: 40455787.75,  toplam: 116338635.95, kesinti: 11633863.60, net: 104704772.35, kumBaz: 1864473034.21 },
+      { no: 19, date: "31.10.2025", baz: 145117537.13, ff: 78929582.00,  toplam: 224047119.13, kesinti: 22404711.92, net: 201642407.21, kumBaz: 2009590571.34 },
+      { no: 20, date: "30.11.2025", baz: 118382769.75, ff: 70023688.98,  toplam: 188406458.73, kesinti: 18840645.88, net: 169565812.85, kumBaz: 2127973341.09 },
+      { no: 21, date: "31.12.2025", baz: 101539685.15, ff: 56530501.61,  toplam: 158070186.76, kesinti: 15807018.68, net: 142263168.08, kumBaz: 2229513026.24 },
+      { no: 22, date: "31.01.2026", baz: 99694139.92,  ff: 59788890.44,  toplam: 159483030.36, kesinti: 15948303.04, net: 143534727.32, kumBaz: 2329207166.16 },
+      { no: 23, date: "28.02.2026", baz: 111106552.75, ff: 72975628.79,  toplam: 184082181.54, kesinti: 18408218.16, net: 165673963.38, kumBaz: 2440313718.91 },
+      { no: 24, date: "31.03.2026", baz: 134676142.57, ff: 107487321.57, toplam: 242163464.14, kesinti: 24216346.42, net: 217947117.72, kumBaz: 2574989861.48 },
+      { no: 25, date: "30.04.2026", baz: 151192171.47, ff: 137839781.18, toplam: 289031952.65, kesinti: 28903195.26, net: 260128757.39, kumBaz: 2726182032.95 },
+      { no: 26, date: "31.05.2026", baz: 129131625.38, ff: 111540029.01, toplam: 240671654.39, kesinti: 24067165.44, net: 216604488.95, kumBaz: 2855313658.33 },
+      { no: 27, date: "30.06.2026", baz: 120696354.62, ff: 101908169.23, toplam: 222604523.85, kesinti: 22260452.38, net: 200344071.47, kumBaz: 2976010012.95 },
+      { no: 28, date: "31.07.2026", baz: 170501066.37, ff: 159618702.31, toplam: 330119768.68, kesinti: 33011976.86, net: 297107791.82, kumBaz: 3146511079.32 }
+    ];
+
+    // ---------------- MÜŞAVİRLİK HAKEDİŞ VERİLERİ (1 - 41) ----------------
+    // PDF Sayfa 41'deki Su Yapı - Üçer İş Ortaklığı Resmî İcmali
+    const musavirHakedisData = [
+      { no: 1,  date: "10.06.2023", kumHk: 244897.39,   oncekiHk: 0.00,        ayHk: 244897.39,  avans: 24489.74,  ffEsas: 220407.65,  genelGiderFF: 604.85,   toplamFF: 0.00,       donemFF: 604.85,     kdv: 0.0, net: 221012.50 },
+      { no: 2,  date: "05.07.2023", kumHk: 606636.52,   oncekiHk: 244897.39,   ayHk: 361739.13,  avans: 36173.91,  ffEsas: 325565.22,  genelGiderFF: 4902.39,  toplamFF: 0.00,       donemFF: 4902.39,    kdv: 0.0, net: 330467.61 },
+      { no: 3,  date: "05.08.2023", kumHk: 968375.65,   oncekiHk: 606636.52,   ayHk: 361739.13,  avans: 36173.91,  ffEsas: 325565.22,  genelGiderFF: 10306.75, toplamFF: 90135.99,   donemFF: 100442.74,  kdv: 0.0, net: 426007.96 },
+      { no: 4,  date: "05.09.2023", kumHk: 1330114.78,  oncekiHk: 968375.65,   ayHk: 361739.13,  avans: 36173.91,  ffEsas: 325565.22,  genelGiderFF: 14489.89, toplamFF: 90135.99,   donemFF: 104625.88,  kdv: 0.0, net: 430191.10 },
+      { no: 5,  date: "05.10.2023", kumHk: 1548228.41,  oncekiHk: 1330114.78,  ayHk: 218113.63,  avans: 21811.36,  ffEsas: 196302.27,  genelGiderFF: 10278.36, toplamFF: 54348.25,   donemFF: 64626.61,   kdv: 0.0, net: 260928.88 },
+      { no: 6,  date: "05.11.2023", kumHk: 1809811.01,  oncekiHk: 1548228.41,  ayHk: 261582.60,  avans: 26158.26,  ffEsas: 235424.34,  genelGiderFF: 13417.40, toplamFF: 65172.59,   donemFF: 78589.99,   kdv: 0.0, net: 314014.33 },
+      { no: 7,  date: "05.12.2023", kumHk: 2214777.97,  oncekiHk: 1809811.01,  ayHk: 404966.96,  avans: 40496.70,  ffEsas: 364470.26,  genelGiderFF: 23265.21, toplamFF: 100907.24,  donemFF: 124172.45,  kdv: 0.0, net: 488642.71 },
+      { no: 8,  date: "05.01.2024", kumHk: 2636439.71,  oncekiHk: 2214777.97,  ayHk: 421661.74,  avans: 42166.17,  ffEsas: 379495.57,  genelGiderFF: 25306.87, toplamFF: 105042.23,  donemFF: 130349.10,  kdv: 0.0, net: 509844.67 },
+      { no: 9,  date: "05.02.2024", kumHk: 3074495.80,  oncekiHk: 2636439.71,  ayHk: 438056.09,  avans: 43805.61,  ffEsas: 394250.48,  genelGiderFF: 30428.53, toplamFF: 320254.36,  donemFF: 350682.89,  kdv: 0.0, net: 744933.37 },
+      { no: 10, date: "05.03.2024", kumHk: 3586958.57,  oncekiHk: 3074495.80,  ayHk: 512462.77,  avans: 51246.28,  ffEsas: 461216.49,  genelGiderFF: 40142.85, toplamFF: 374643.83,  donemFF: 414786.68,  kdv: 0.0, net: 876003.17 },
+      { no: 11, date: "05.04.2024", kumHk: 4099421.34,  oncekiHk: 3586958.57,  ayHk: 512462.77,  avans: 51246.28,  ffEsas: 461216.49,  genelGiderFF: 44301.46, toplamFF: 374643.83,  donemFF: 418945.29,  kdv: 0.0, net: 880161.78 },
+      { no: 12, date: "05.05.2024", kumHk: 4611884.11,  oncekiHk: 4099421.34,  ayHk: 512462.77,  avans: 51246.28,  ffEsas: 461216.49,  genelGiderFF: 48998.33, toplamFF: 374643.83,  donemFF: 423642.16,  kdv: 0.0, net: 884858.65 },
+      { no: 13, date: "05.06.2024", kumHk: 5166570.78,  oncekiHk: 4611884.11,  ayHk: 554686.67,  avans: 55468.67,  ffEsas: 499218.00,  genelGiderFF: 55895.68, toplamFF: 405496.85,  donemFF: 461392.53,  kdv: 0.0, net: 960610.53 },
+      { no: 14, date: "05.07.2024", kumHk: 5734546.43,  oncekiHk: 5166570.78,  ayHk: 567975.65,  avans: 56797.57,  ffEsas: 511178.08,  genelGiderFF: 59337.83, toplamFF: 415226.58,  donemFF: 474564.41,  kdv: 0.0, net: 985742.49 },
+      { no: 15, date: "05.08.2024", kumHk: 6309128.65,  oncekiHk: 5734546.43,  ayHk: 574582.22,  avans: 57458.22,  ffEsas: 517124.00,  genelGiderFF: 63064.66, toplamFF: 420041.85,  donemFF: 483106.51,  kdv: 0.0, net: 1000230.51 },
+      { no: 16, date: "09.09.2024", kumHk: 6883710.87,  oncekiHk: 6309128.65,  ayHk: 574582.22,  avans: 57458.22,  ffEsas: 517124.00,  genelGiderFF: 65744.18, toplamFF: 420041.85,  donemFF: 485786.03,  kdv: 0.0, net: 1002910.03 },
+      { no: 17, date: "05.10.2024", kumHk: 7485393.61,  oncekiHk: 6883710.87,  ayHk: 601682.74,  avans: 60168.27,  ffEsas: 541514.47,  genelGiderFF: 71162.92, toplamFF: 439875.93,  donemFF: 511038.85,  kdv: 0.0, net: 1052553.32 },
+      { no: 18, date: "05.11.2024", kumHk: 8119040.00,  oncekiHk: 7485393.61,  ayHk: 633646.39,  avans: 63364.64,  ffEsas: 570281.75,  genelGiderFF: 77291.53, toplamFF: 463238.08,  donemFF: 540529.61,  kdv: 0.0, net: 1110811.36 },
+      { no: 19, date: "05.12.2024", kumHk: 8805440.00,  oncekiHk: 8119040.00,  ayHk: 686400.00,  avans: 68640.00,  ffEsas: 617760.00,  genelGiderFF: 85032.46, toplamFF: 501802.36,  donemFF: 586834.82,  kdv: 0.0, net: 1204594.82 },
+      { no: 20, date: "05.01.2025", kumHk: 9526506.67,  oncekiHk: 8805440.00,  ayHk: 721066.67,  avans: 72106.67,  ffEsas: 648960.00,  genelGiderFF: 92968.37, toplamFF: 527145.92,  donemFF: 620114.29,  kdv: 0.0, net: 1269074.29 },
+      { no: 21, date: "05.02.2025", kumHk: 10399051.58, oncekiHk: 9526506.67,  ayHk: 872544.91,  avans: 87254.49,  ffEsas: 785290.42,  genelGiderFF: 116956.88,toplamFF: 1021020.02, donemFF: 1137976.90, kdv: 0.0, net: 1923267.32 },
+      { no: 22, date: "05.03.2025", kumHk: 11379666.08, oncekiHk: 10399051.58, ayHk: 980614.50,  avans: 98061.45,  ffEsas: 882553.05,  genelGiderFF: 137706.80,toplamFF: 1147479.08, donemFF: 1285185.88, kdv: 0.0, net: 2167738.93 },
+      { no: 23, date: "05.04.2025", kumHk: 12427503.77, oncekiHk: 11379666.08, ayHk: 1047837.69, avans: 104783.77, ffEsas: 943053.92,  genelGiderFF: 153235.06,toplamFF: 1226141.19, donemFF: 1379376.25, kdv: 0.0, net: 2322430.17 },
+      { no: 24, date: "05.05.2025", kumHk: 13488605.20, oncekiHk: 12427503.77, ayHk: 1061101.43, avans: 106110.14, ffEsas: 954991.29,  genelGiderFF: 164377.21,toplamFF: 1241661.94, donemFF: 1406039.15, kdv: 0.0, net: 2361030.44 },
+      { no: 25, date: "05.06.2025", kumHk: 14498886.36, oncekiHk: 13488605.20, ayHk: 1010281.16, avans: 101028.12, ffEsas: 909253.04,  genelGiderFF: 165418.00,toplamFF: 1188044.74, donemFF: 1353462.74, kdv: 0.0, net: 2262715.78 },
+      { no: 26, date: "05.07.2025", kumHk: 15567222.59, oncekiHk: 14498886.36, ayHk: 1068336.23, avans: 106833.62, ffEsas: 961502.61,  genelGiderFF: 182772.55,toplamFF: 1250127.87, donemFF: 1432900.42, kdv: 0.0, net: 2394403.03 },
+      { no: 27, date: "05.08.2025", kumHk: 16778897.96, oncekiHk: 15567222.59, ayHk: 1211675.37, avans: 121167.54, ffEsas: 1090507.83, genelGiderFF: 214352.63,toplamFF: 1417888.04, donemFF: 1632240.67, kdv: 0.0, net: 2722748.50 },
+      { no: 28, date: "05.09.2025", kumHk: 17992080.54, oncekiHk: 16778897.96, ayHk: 1213182.58, avans: 121318.26, ffEsas: 1091864.32, genelGiderFF: 225006.56,toplamFF: 1419621.73, donemFF: 1644628.29, kdv: 0.0, net: 2736492.61 },
+      { no: 29, date: "05.10.2025", kumHk: 19205715.33, oncekiHk: 17992080.54, ayHk: 1213634.79, avans: 121363.48, ffEsas: 1092271.31, genelGiderFF: 236910.95,toplamFF: 1420150.98, donemFF: 1657061.93, kdv: 0.0, net: 2749333.24 },
+      { no: 30, date: "05.11.2025", kumHk: 20447083.44, oncekiHk: 19205715.33, ayHk: 1241368.11, avans: 124136.81, ffEsas: 1117231.30, genelGiderFF: 248611.38,toplamFF: 1452603.38, donemFF: 1701214.76, kdv: 0.0, net: 2818446.06 },
+      { no: 31, date: "05.12.2025", kumHk: 21736683.44, oncekiHk: 20447083.44, ayHk: 1289600.00, avans: 128960.00, ffEsas: 1160640.00, genelGiderFF: 262249.79,toplamFF: 1509042.58, donemFF: 1771292.37, kdv: 0.0, net: 2931932.37 },
+      { no: 32, date: "05.01.2026", kumHk: 23023248.95, oncekiHk: 21736683.44, ayHk: 1286565.51, avans: 128656.55, ffEsas: 1157908.96, genelGiderFF: 265199.80,toplamFF: 1505515.13, donemFF: 1770714.93, kdv: 0.0, net: 2928623.89 },
+      { no: 33, date: "05.02.2026", kumHk: 24309814.46, oncekiHk: 23023248.95, ayHk: 1286565.51, avans: 128656.55, ffEsas: 1157908.96, genelGiderFF: 278028.12,toplamFF: 2166586.61, donemFF: 2444614.73, kdv: 0.0, net: 3602523.69 },
+      { no: 34, date: "05.03.2026", kumHk: 25565501.00, oncekiHk: 24309814.46, ayHk: 1255686.54, avans: 125568.65, ffEsas: 1130117.89, genelGiderFF: 283060.07,toplamFF: 2114553.99, donemFF: 2397614.06, kdv: 0.0, net: 3527731.95 },
+      { no: 35, date: "05.04.2026", kumHk: 26808074.91, oncekiHk: 25565501.00, ayHk: 1242573.91, avans: 124257.39, ffEsas: 1118316.52, genelGiderFF: 291338.12,toplamFF: 2092471.88, donemFF: 2383810.00, kdv: 0.0, net: 3502126.52 },
+      { no: 36, date: "05.05.2026", kumHk: 28103402.47, oncekiHk: 26808074.91, ayHk: 1295327.56, avans: 129532.76, ffEsas: 1165794.80, genelGiderFF: 320229.91,toplamFF: 2181308.06, donemFF: 2501537.97, kdv: 0.0, net: 3667332.77 },
+      { no: 37, date: "05.06.2026", kumHk: 29458938.70, oncekiHk: 28103402.47, ayHk: 1355536.23, avans: 135553.62, ffEsas: 1219982.61, genelGiderFF: 351640.11,toplamFF: 2289434.30, donemFF: 2641074.41, kdv: 0.0, net: 3861057.02 },
+      { no: 38, date: "05.07.2026", kumHk: 30837164.79, oncekiHk: 29458938.70, ayHk: 1378226.09, avans: 137822.61, ffEsas: 1240403.48, genelGiderFF: 367031.07,toplamFF: 2320907.67, donemFF: 2687938.74, kdv: 0.0, net: 3928342.22 },
+      { no: 39, date: "05.08.2026", kumHk: 32200619.86, oncekiHk: 30837164.79, ayHk: 1363455.07, avans: 136345.51, ffEsas: 1227109.56, genelGiderFF: 372120.62,toplamFF: 2296033.56, donemFF: 2668154.18, kdv: 0.0, net: 3895263.74 },
+      { no: 40, date: "05.09.2026", kumHk: 33573419.86, oncekiHk: 32200619.86, ayHk: 1372800.00, avans: 137280.00, ffEsas: 1235520.00, genelGiderFF: 390196.24,toplamFF: 2311770.23, donemFF: 2701966.47, kdv: 0.0, net: 3937486.47 },
+      { no: 41, date: "05.10.2026", kumHk: 34951645.94, oncekiHk: 33573419.86, ayHk: 1378226.08, avans: 137822.61, ffEsas: 1240403.47, genelGiderFF: 404621.48,toplamFF: 2320907.67, donemFF: 2725529.15, kdv: 0.0, net: 3965932.62 }
+    ];
+
+    function fmtTL(val) {
+      return new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val) + " TL";
+    }
+
+    // Görünüm Değiştiriciler
+    function hideAllViews() {
+      document.getElementById('mainView').style.display = 'none';
+      document.getElementById('yukleniciSubView').style.display = 'none';
+      document.getElementById('musavirSubView').style.display = 'none';
+      document.getElementById('hakedisDashboardView').style.display = 'none';
+      document.getElementById('musavirHakedisDashboardView').style.display = 'none';
+      document.getElementById('ilerlemeReportsView').style.display = 'none';
+    }
+
+    function showMainMenu() {
+      hideAllViews();
+      document.getElementById('mainView').style.display = 'flex';
+      document.getElementById('headerMainTitle').innerText = '7. Kısım Genişleme Sahası';
+    }
+
+    function showYukleniciSubmenu() {
+      hideAllViews();
+      document.getElementById('yukleniciSubView').style.display = 'flex';
+      document.getElementById('headerMainTitle').innerText = '7. Kısım Genişleme Sahası - Yüklenici';
+    }
+
+    function showMusavirSubmenu() {
+      hideAllViews();
+      document.getElementById('musavirSubView').style.display = 'flex';
+      document.getElementById('headerMainTitle').innerText = '7. Kısım Genişleme Sahası - Müşavir';
+    }
+
+    // 1. Yüklenici Hakediş Dashboard Açılışı
+    let hakedisChartsInitialized = false;
+    let trendChart = null, pieChart = null;
+
+    function showHakedisDashboardView() {
+      hideAllViews();
+      document.getElementById('hakedisDashboardView').style.display = 'flex';
+      document.getElementById('headerMainTitle').innerText = '7. Kısım Genişleme Sahası - Yüklenici Hakediş';
+      
+      if (!hakedisChartsInitialized) {
+        initHakedisUI();
+        initHakedisCharts();
+        hakedisChartsInitialized = true;
+      }
+      onHakedisChange(28);
+    }
+
+    // 2. Müşavir Hakediş Dashboard Açılışı
+    let musavirChartsInitialized = false;
+    let musavirTrendChart = null, musavirPieChart = null;
+
+    function showMusavirHakedisDashboardView() {
+      hideAllViews();
+      document.getElementById('musavirHakedisDashboardView').style.display = 'flex';
+      document.getElementById('headerMainTitle').innerText = '7. Kısım Genişleme Sahası - Müşavir Hakediş';
+
+      if (!musavirChartsInitialized) {
+        initMusavirHakedisUI();
+        initMusavirHakedisCharts();
+        musavirChartsInitialized = true;
+      }
+      onMusavirHakedisChange(41);
+    }
+
+    // 3. İlerleme Raporları PDF Listesi Açılışı
+    function showIlerlemeReportsView() {
+      hideAllViews();
+      document.getElementById('ilerlemeReportsView').style.display = 'flex';
+      document.getElementById('headerMainTitle').innerText = '7. Kısım Genişleme Sahası - İlerleme Raporları';
+    }
+
+    // --- Yüklenici Hakediş Fonksiyonları ---
+    function initHakedisUI() {
+      const selectEl = document.getElementById('hkSelect');
+      const tbodyEl = document.getElementById('hakedisTableBody');
+
+      hakedisData.forEach(hk => {
+        const opt = document.createElement('option');
+        opt.value = hk.no;
+        opt.text = `Hakediş No: ${hk.no} (${hk.date})`;
+        selectEl.appendChild(opt);
+
+        const tr = document.createElement('tr');
+        tr.id = `row-hk-${hk.no}`;
+        tr.innerHTML = `
+          <td><strong>#${hk.no}</strong></td>
+          <td>${hk.date}</td>
+          <td>${fmtTL(hk.baz)}</td>
+          <td style="color:#0284c7; font-weight:600;">${fmtTL(hk.ff)}</td>
+          <td>${fmtTL(hk.toplam)}</td>
+          <td style="color:#64748b;">${fmtTL(hk.kesinti)}</td>
+          <td style="color:#0369a1; font-weight:700;">${fmtTL(hk.net)}</td>
+        `;
+        tr.onclick = () => { selectEl.value = hk.no; onHakedisChange(hk.no); };
+        tbodyEl.appendChild(tr);
+      });
+      selectEl.value = 28;
+    }
+
+    function initHakedisCharts() {
+      const ctxTrend = document.getElementById('barTrendChart').getContext('2d');
+      trendChart = new Chart(ctxTrend, {
+        type: 'bar',
+        data: {
+          labels: hakedisData.map(d => `Hk.${d.no}`),
+          datasets: [
+            { label: 'Baz Tutar (E)', data: hakedisData.map(d => d.baz), backgroundColor: '#0284c7', borderRadius: 4 },
+            { label: 'Fiyat Farkı (F)', data: hakedisData.map(d => d.ff), backgroundColor: '#38bdf8', borderRadius: 4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: (evt, elements) => {
+            if (elements.length > 0) {
+              const clickedIndex = elements[0].index;
+              const selectedHk = hakedisData[clickedIndex].no;
+              document.getElementById('hkSelect').value = selectedHk;
+              onHakedisChange(selectedHk);
+            }
+          },
+          plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtTL(ctx.raw) } } },
+          scales: { x: { grid: { display: false } }, y: { ticks: { callback: v => (v / 1e6).toFixed(0) + 'M' } } }
+        }
+      });
+
+      const ctxPie = document.getElementById('pieHakedisChart').getContext('2d');
+      pieChart = new Chart(ctxPie, {
+        type: 'doughnut',
+        data: {
+          labels: ['Net Ödeme', 'Fiyat Farkı Payı', 'Kesintiler'],
+          datasets: [{ data: [1, 1, 1], backgroundColor: ['#0369a1', '#38bdf8', '#93c5fd'], borderWidth: 2, borderColor: '#ffffff' }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: ctx => ctx.label + ': ' + fmtTL(ctx.raw) } } },
+          cutout: '65%'
+        }
+      });
+    }
+
+    function onHakedisChange(hkNo) {
+      const selected = hakedisData.find(d => d.no == hkNo) || hakedisData[hakedisData.length - 1];
+      let kumFF = 0, kumToplam = 0;
+      hakedisData.filter(d => d.no <= selected.no).forEach(d => { kumFF += d.ff; kumToplam += d.toplam; });
+
+      document.getElementById('topKumBaz').innerText = fmtTL(selected.kumBaz);
+      document.getElementById('topKumFF').innerText = fmtTL(kumFF);
+      document.getElementById('topKumToplam').innerText = fmtTL(selected.kumBaz + kumFF);
+
+      document.getElementById('kpiBaz').innerText = fmtTL(selected.baz);
+      document.getElementById('kpiBazKum').innerText = `Kümülatif İmalat: ${fmtTL(selected.kumBaz)}`;
+      document.getElementById('kpiFiyatFarki').innerText = fmtTL(selected.ff);
+      document.getElementById('kpiFfKum').innerText = `Kümülatif FF: ${fmtTL(kumFF)}`;
+      document.getElementById('kpiKesintiler').innerText = fmtTL(selected.kesinti);
+      document.getElementById('kpiTahakkuk').innerText = `Tahakkuk: ${fmtTL(selected.toplam)}`;
+      document.getElementById('kpiNet').innerText = fmtTL(selected.net);
+      document.getElementById('kpiNetYazi').innerText = `${selected.date} Dönemi Net Hakediş Ödemesi`;
+
+      document.getElementById('donutSubtitle').innerText = `(Hakediş No: ${selected.no})`;
+
+      if (pieChart) {
+        pieChart.data.datasets[0].data = [selected.net, selected.ff, selected.kesinti];
+        pieChart.update();
+      }
+
+      document.querySelectorAll('#hakedisTableBody tr').forEach(tr => tr.classList.remove('selected-row'));
+      const activeRow = document.getElementById(`row-hk-${selected.no}`);
+      if (activeRow) {
+        activeRow.classList.add('selected-row');
+        activeRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    // --- Müşavir Hakediş Fonksiyonları (1-41) ---
+    function initMusavirHakedisUI() {
+      const selectEl = document.getElementById('musavirHkSelect');
+      const tbodyEl = document.getElementById('musavirTableBody');
+
+      musavirHakedisData.forEach(hk => {
+        const opt = document.createElement('option');
+        opt.value = hk.no;
+        opt.text = `Hakediş No: ${hk.no} (${hk.date})`;
+        selectEl.appendChild(opt);
+
+        const tr = document.createElement('tr');
+        tr.id = `row-musavir-hk-${hk.no}`;
+        tr.innerHTML = `
+          <td><strong>#${hk.no}</strong></td>
+          <td>${hk.date}</td>
+          <td>${fmtTL(hk.ayHk)}</td>
+          <td style="color:#ef4444;">${fmtTL(hk.avans)}</td>
+          <td style="color:#0284c7; font-weight:600;">${fmtTL(hk.donemFF)}</td>
+          <td>${fmtTL(hk.kumHk)}</td>
+          <td style="color:#0369a1; font-weight:700;">${fmtTL(hk.net)}</td>
+        `;
+        tr.onclick = () => { selectEl.value = hk.no; onMusavirHakedisChange(hk.no); };
+        tbodyEl.appendChild(tr);
+      });
+      selectEl.value = 41;
+    }
+
+    function initMusavirHakedisCharts() {
+      const ctxTrend = document.getElementById('musavirTrendChart').getContext('2d');
+      musavirTrendChart = new Chart(ctxTrend, {
+        type: 'bar',
+        data: {
+          labels: musavirHakedisData.map(d => `Hk.${d.no}`),
+          datasets: [
+            { label: 'Uygulama Ayı Tutarı (C)', data: musavirHakedisData.map(d => d.ayHk), backgroundColor: '#0284c7', borderRadius: 3 },
+            { label: 'Dönem Fiyat Farkı (H)', data: musavirHakedisData.map(d => d.donemFF), backgroundColor: '#38bdf8', borderRadius: 3 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: (evt, elements) => {
+            if (elements.length > 0) {
+              const clickedIndex = elements[0].index;
+              const selectedHk = musavirHakedisData[clickedIndex].no;
+              document.getElementById('musavirHkSelect').value = selectedHk;
+              onMusavirHakedisChange(selectedHk);
+            }
+          },
+          plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtTL(ctx.raw) } } },
+          scales: { x: { grid: { display: false } }, y: { ticks: { callback: v => (v / 1e6).toFixed(1) + 'M' } } }
+        }
+      });
+
+      const ctxPie = document.getElementById('musavirPieChart').getContext('2d');
+      musavirPieChart = new Chart(ctxPie, {
+        type: 'doughnut',
+        data: {
+          labels: ['Net Ödeme', 'Fiyat Farkı Payı', 'Avans Kesintisi'],
+          datasets: [{ data: [1, 1, 1], backgroundColor: ['#0369a1', '#38bdf8', '#ef4444'], borderWidth: 2, borderColor: '#ffffff' }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: ctx => ctx.label + ': ' + fmtTL(ctx.raw) } } },
+          cutout: '65%'
+        }
+      });
+    }
+
+    function onMusavirHakedisChange(hkNo) {
+      const selected = musavirHakedisData.find(d => d.no == hkNo) || musavirHakedisData[musavirHakedisData.length - 1];
+      
+      let kumFF = 0, kumNet = 0;
+      musavirHakedisData.filter(d => d.no <= selected.no).forEach(d => { 
+        kumFF += d.donemFF; 
+        kumNet += d.net; 
+      });
+
+      // Kümülatif Üst Çubuk
+      document.getElementById('topMusavirKumHk').innerText = fmtTL(selected.kumHk);
+      document.getElementById('topMusavirKumFF').innerText = fmtTL(kumFF);
+      document.getElementById('topMusavirKumNet').innerText = fmtTL(kumNet);
+
+      // KPI Kartları
+      document.getElementById('kpiMusavirBaz').innerText = fmtTL(selected.ayHk);
+      document.getElementById('kpiMusavirKumHk').innerText = `Kümülatif Hakediş: ${fmtTL(selected.kumHk)}`;
+      document.getElementById('kpiMusavirFF').innerText = fmtTL(selected.donemFF);
+      document.getElementById('kpiMusavirGenelGider').innerText = `Genel Gider FF: ${fmtTL(selected.genelGiderFF)}`;
+      document.getElementById('kpiMusavirAvans').innerText = fmtTL(selected.avans);
+      document.getElementById('kpiMusavirFarkEsas').innerText = `FF Esas Tutar: ${fmtTL(selected.ffEsas)}`;
+      document.getElementById('kpiMusavirNet').innerText = fmtTL(selected.net);
+      document.getElementById('kpiMusavirTarih').innerText = `${selected.date} Dönemi Müşavir Net Ödeme`;
+
+      document.getElementById('musavirDonutSubtitle').innerText = `(Hakediş No: ${selected.no})`;
+
+      if (musavirPieChart) {
+        musavirPieChart.data.datasets[0].data = [selected.net, selected.donemFF, selected.avans];
+        musavirPieChart.update();
+      }
+
+      document.querySelectorAll('#musavirTableBody tr').forEach(tr => tr.classList.remove('selected-row'));
+      const activeRow = document.getElementById(`row-musavir-hk-${selected.no}`);
+      if (activeRow) {
+        activeRow.classList.add('selected-row');
+        activeRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    // PDF Görüntüleyici
+    function openPdfViewer(pdfUrl, title) {
+      document.getElementById('pdfModalTitle').innerText = title;
+      document.getElementById('pdfFrame').src = pdfUrl;
+      document.getElementById('pdfModal').classList.add('active');
+    }
+
+    function closePdfViewer() {
+      document.getElementById('pdfFrame').src = '';
+      document.getElementById('pdfModal').classList.remove('active');
+    }
+  </script>
+</body>
+</html>

@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ASO 1. OSB - 7. Kısım Genişleme Sahası</title>
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Chart.js & Datalabels CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -174,7 +175,7 @@
 
     .subview-header {
       width: 100%;
-      max-width: 900px;
+      max-width: 1200px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -214,7 +215,7 @@
       border: 1px solid #bae6fd;
     }
 
-    /* Dashboard Stilleri */
+    /* Dashboard & Genel Tablo Stilleri */
     .dashboard-container {
       width: 100%;
       max-width: 1300px;
@@ -288,8 +289,34 @@
     tr:hover { background-color: #e0f2fe; cursor: pointer; }
     tr.selected-row { background-color: #bae6fd !important; font-weight: 700; }
 
+    /* İlerleme Raporları İçi Navigasyon Sekmeleri */
+    .nav-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 18px;
+      border-bottom: 2px solid #bfdbfe;
+      padding-bottom: 8px;
+      width: 100%;
+    }
+    .nav-tab-btn {
+      padding: 8px 18px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #0369a1;
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-tab-btn.active {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+    }
+
     /* İlerleme Raporları PDF Listesi */
-    .report-list-container { width: 100%; max-width: 900px; display: flex; flex-direction: column; gap: 16px; }
+    .report-list-container { width: 100%; max-width: 900px; display: flex; flex-direction: column; gap: 16px; margin: 0 auto; }
     .report-card { background: #ffffff; border: 1px solid #bfdbfe; border-radius: 18px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 3px 10px rgba(2, 132, 199, 0.04); gap: 16px; flex-wrap: wrap; }
     .report-info { display: flex; align-items: center; gap: 16px; }
     .pdf-badge-icon { width: 50px; height: 50px; background-color: #fee2e2; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #ef4444; flex-shrink: 0; }
@@ -297,6 +324,113 @@
     .report-meta p { font-size: 0.82rem; color: #64748b; }
     .btn-view { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 10px; font-size: 0.88rem; font-weight: 700; background-color: #0284c7; color: #ffffff; border: none; cursor: pointer; transition: all 0.2s; }
     .btn-view:hover { background-color: #0369a1; transform: translateY(-2px); }
+
+    /* YENİ EKLENEN KISIM: Minimal İmalat Hız & Sapma Analiz Paneli Stilleri */
+    .minimal-analysis-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .minimal-top-card {
+      background: #ffffff;
+      padding: 16px 20px;
+      border-radius: 14px;
+      border: 1px solid #bfdbfe;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.04);
+    }
+
+    .minimal-top-card h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #034f84;
+    }
+
+    .minimal-select {
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #0f2744;
+      background: #f8fafc;
+      border: 1.5px solid #0284c7;
+      border-radius: 8px;
+      outline: none;
+      cursor: pointer;
+      min-width: 340px;
+    }
+
+    .badge-red {
+      display: inline-block;
+      background-color: #fef2f2;
+      color: #dc2626;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+    }
+
+    .badge-green {
+      display: inline-block;
+      background-color: #ecfdf5;
+      color: #16a34a;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+    }
+
+    .chart-box-official {
+      background: #ffffff;
+      padding: 18px 20px 10px 20px;
+      border-radius: 14px;
+      border: 1px solid #bfdbfe;
+      position: relative;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.04);
+    }
+
+    .chart-header-official {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .chart-header-official .warning-note {
+      color: #ef4444;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .chart-header-official .title-main {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #034f84;
+      text-align: center;
+      flex: 1;
+    }
+
+    .chart-header-official .title-sub {
+      font-weight: 500;
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+
+    .canvas-wrapper-official {
+      position: relative;
+      height: 280px;
+      width: 100%;
+    }
+
+    .chart-divider-official {
+      border-top: 1.5px solid #cbd5e1;
+      margin: 4px 0;
+    }
 
     /* Tam Ekran PDF Modal */
     .pdf-modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
@@ -320,8 +454,9 @@
       .kpi-grid { grid-template-columns: 1fr; }
       .header-container { flex-direction: column; align-items: flex-start; gap: 10px; }
       .header-divider { display: none; }
-      .subview-header { max-width: 320px; }
+      .subview-header { max-width: 100%; }
       .report-card { flex-direction: column; align-items: flex-start; }
+      .minimal-select { min-width: 100%; }
     }
   </style>
 </head>
@@ -643,8 +778,8 @@
 
     </div>
 
-    <!-- 6. GÖRÜNÜM: İLERLEME RAPORLARI (PDF LİSTESİ) -->
-    <div id="ilerlemeReportsView" class="view-container" style="display: none;">
+    <!-- 6. GÖRÜNÜM: İLERLEME RAPORLARI (PDF ARŞİVİ + KALEM BAZLI PERFORMANS ANALİZİ) -->
+    <div id="ilerlemeReportsView" class="dashboard-container" style="display: none;">
       <div class="subview-header">
         <button onclick="showYukleniciSubmenu()" class="back-btn">
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -653,10 +788,79 @@
           </svg>
           Yüklenici Menüsüne Dön
         </button>
-        <span class="subview-badge">İlerleme Raporları Arşivi</span>
+        <span class="subview-badge">İlerleme Raporları & Performans İzleme</span>
       </div>
 
-      <div class="report-list-container">
+      <!-- İlerleme Raporu İçi Sekmeler -->
+      <div class="nav-tabs">
+        <button id="tabBtnAnalysis" class="nav-tab-btn active" onclick="switchIlerlemeTab('analysis')">📊 Kalem Bazlı Hız & Sapma Analizi (Faz-1 Kuzey)</button>
+        <button id="tabBtnPdfs" class="nav-tab-btn" onclick="switchIlerlemeTab('pdfs')">📁 Resmî Rapor PDF Arşivi</button>
+      </div>
+
+      <!-- SEKME 1: YENİ KALEM BAZLI MİNİMAL ANALİZ PANELİ -->
+      <div id="ilerlemeAnalysisSection" class="minimal-analysis-container">
+        
+        <!-- Kalem Seçici Bar -->
+        <div class="minimal-top-card">
+          <h3>İmalat Kalemi Seçimi (7 Günlük Periyotlarla Takip)</h3>
+          <div class="selector-group">
+            <label for="itemSelect" style="font-weight:700; color:#034f84; font-size:0.88rem;">İncelenen Kalem:</label>
+            <select id="itemSelect" class="minimal-select" onchange="renderItemAnalysisDashboard()"></select>
+          </div>
+        </div>
+
+        <!-- Üst Kısım: Rapor Değerleri Tablosu (2. Görsel Tarzında) -->
+        <div class="table-card" style="padding: 16px 20px;">
+          <h3 style="margin-bottom: 12px;">Haftalık Periyot Rapor Değerleri Geçmişi</h3>
+          <div class="table-container">
+            <table id="itemHistoryTable">
+              <thead>
+                <tr>
+                  <th>Rapor Tarihi</th>
+                  <th>Planlanan Günlük Hız</th>
+                  <th>Gerçekleşen Günlük Hız</th>
+                  <th>Hız Farkı</th>
+                  <th>Hız Sapması (%)</th>
+                  <th>Kümülatif Gerçekleşen %</th>
+                  <th>Kümülatif Planlanan %</th>
+                  <th>Gecikme Süresi</th>
+                  <th>Mevcut Hızla Bitiş Tarihi</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Alt Kısım: Sade Şantiye Tipi Grafikler (1. Görsel Tarzında) -->
+        <div class="chart-box-official">
+          <div class="chart-header-official">
+            <span class="warning-note">!! İş programına göre süresi biten işlerde hedefler çok fazla görülür.</span>
+            <span class="title-main">GÜNLÜK ORTALAMA MİKTARLAR <span class="title-sub">(Periyodik Ortalama 2 rapor tarihi arası Geçen Güne Göre)</span></span>
+            <span></span>
+          </div>
+          <div class="canvas-wrapper-official">
+            <canvas id="officialDailyChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-divider-official"></div>
+
+        <div class="chart-box-official">
+          <div class="chart-header-official">
+            <span></span>
+            <span class="title-main">KÜMÜLATİF MİKTARLAR</span>
+            <span></span>
+          </div>
+          <div class="canvas-wrapper-official">
+            <canvas id="officialCumChart"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SEKME 2: PDF RAPOR LİSTESİ -->
+      <div id="ilerlemePdfsSection" class="report-list-container" style="display: none;">
         <div class="report-card">
           <div class="report-info">
             <div class="pdf-badge-icon">
@@ -666,15 +870,31 @@
               </svg>
             </div>
             <div class="report-meta">
-              <h3>Genel Proje Durum Raporu (05.10.2026)</h3>
-              <p>📅 05 Ekim 2026 • 1. Etap Kuzey Bölgesi Performans Analizi[cite: 38]</p>
+              <h3>Genel Proje Durum Raporu (12.10.2026 - R1)[cite: 34]</h3>
+              <p>📅 12 Ekim 2026 • 1. Etap Kuzey Bölgesi Performans Analizi[cite: 35]</p>
+            </div>
+          </div>
+          <button onclick="openPdfViewer('ASO GENEL PROJE DURUM RAPORU 2026-10-12-R1.pdf', 'Genel Proje Durum Raporu (12.10.2026)')" class="btn-view">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            Raporu Görüntüle
+          </button>
+        </div>
+
+        <div class="report-card">
+          <div class="report-info">
+            <div class="pdf-badge-icon">
+              <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+            </div>
+            <div class="report-meta">
+              <h3>Genel Proje Durum Raporu (05.10.2026)[cite: 26]</h3>
+              <p>📅 05 Ekim 2026 • 1. Etap Kuzey Bölgesi Performans Analizi[cite: 27]</p>
             </div>
           </div>
           <button onclick="openPdfViewer('ASO GENEL PROJE DURUM RAPORU 2026-10-05.pdf', 'Genel Proje Durum Raporu (05.10.2026)')" class="btn-view">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             Raporu Görüntüle
           </button>
         </div>
@@ -693,14 +913,12 @@
             </div>
           </div>
           <button onclick="openPdfViewer('ASO.28.HK_2026-Temmuz-Hakediş Dosyası.pdf', 'Hakediş No: 28 Dosyası (Temmuz 2026)')" class="btn-view">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             Raporu Görüntüle
           </button>
         </div>
       </div>
+
     </div>
 
   </main>
@@ -754,7 +972,6 @@
     ];
 
     // ---------------- MÜŞAVİRLİK HAKEDİŞ VERİLERİ (1 - 41) ----------------
-    // PDF Sayfa 41'deki Su Yapı - Üçer İş Ortaklığı Resmî İcmali
     const musavirHakedisData = [
       { no: 1,  date: "10.06.2023", kumHk: 244897.39,   oncekiHk: 0.00,        ayHk: 244897.39,  avans: 24489.74,  ffEsas: 220407.65,  genelGiderFF: 604.85,   toplamFF: 0.00,       donemFF: 604.85,     kdv: 0.0, net: 221012.50 },
       { no: 2,  date: "05.07.2023", kumHk: 606636.52,   oncekiHk: 244897.39,   ayHk: 361739.13,  avans: 36173.91,  ffEsas: 325565.22,  genelGiderFF: 4902.39,  toplamFF: 0.00,       donemFF: 4902.39,    kdv: 0.0, net: 330467.61 },
@@ -799,6 +1016,132 @@
       { no: 41, date: "05.10.2026", kumHk: 34951645.94, oncekiHk: 33573419.86, ayHk: 1378226.08, avans: 137822.61, ffEsas: 1240403.47, genelGiderFF: 404621.48,toplamFF: 2320907.67, donemFF: 2725529.15, kdv: 0.0, net: 3965932.62 }
     ];
 
+    // ---------------- FAZ-1 KUZEY BÖLGESİ HAFTALIK KALEM PERFORMANS VERİLERİ (7 Günlük Periyotlar) ----------------
+    const itemReportDates = ['07 Eylül 26', '14 Eylül 26', '21 Eylül 26', '28 Eylül 26', '12 Ekim 26'];
+
+    const itemsPerformanceData = [
+      {
+        id: 1,
+        name: "PARSEL DOLGULARI (ZM ISLAHI+NİT DOLG.)",
+        unit: "m³",
+        history: [
+          { date: '07.09.2026', targetRate: 3066, actualRate: 1982, diff: -1083, devPct: -35.34, actualProg: 4.11, planProg: 5.74, delay: 58, endDate: '17.Şub.27' },
+          { date: '14.09.2026', targetRate: 3046, actualRate: 3097, diff: 52, devPct: 1.71, actualProg: 10.54, planProg: 11.48, delay: -2, endDate: '20.Ara.26' },
+          { date: '21.09.2026', targetRate: 3051, actualRate: 2723, diff: -328, devPct: -10.76, actualProg: 16.18, planProg: 17.21, delay: 11, endDate: '02.Oca.27' },
+          { date: '28.09.2026', targetRate: 3114, actualRate: 2024, diff: -1091, devPct: -35.02, actualProg: 20.38, planProg: 22.95, delay: 47, endDate: '07.Şub.27' },
+          { date: '12.10.2026', targetRate: 3225, actualRate: 2082, diff: -1143, devPct: -35.43, actualProg: 29.82, planProg: 34.43, delay: 40, endDate: '02.Şub.27' }
+        ]
+      },
+      {
+        id: 2,
+        name: "YOL DOLGULARI (ALT TEM. ALTI ZM. ISLAHI)",
+        unit: "m³",
+        history: [
+          { date: '07.09.2026', targetRate: 4113, actualRate: 508, diff: -3606, devPct: -87.66, actualProg: 0.81, planProg: 5.74, delay: 750, endDate: '09.Oca.29' },
+          { date: '14.09.2026', targetRate: 4319, actualRate: 866, diff: -3453, devPct: -79.96, actualProg: 2.20, planProg: 11.48, delay: 395, endDate: '21.Oca.28' },
+          { date: '21.09.2026', targetRate: 4570, actualRate: 645, diff: -3925, devPct: -85.89, actualProg: 3.23, planProg: 17.21, delay: 564, endDate: '09.Tem.28' },
+          { date: '28.09.2026', targetRate: 4844, actualRate: 807, diff: -4037, devPct: -83.33, actualProg: 4.52, planProg: 22.95, delay: 432, endDate: '27.Şub.28' },
+          { date: '12.10.2026', targetRate: 5519, actualRate: 854, diff: -4665, devPct: -84.53, actualProg: 7.42, planProg: 34.43, delay: 401, endDate: '29.Oca.28' }
+        ]
+      },
+      {
+        id: 3,
+        name: "İSTİNAT DUVARI PARSEL - PARSEL",
+        unit: "m³",
+        history: [
+          { date: '07.09.2026', targetRate: 357, actualRate: 52, diff: -305, devPct: -85.48, actualProg: 0.95, planProg: 5.74, delay: 621, endDate: '02.Eyl.28' },
+          { date: '14.09.2026', targetRate: 375, actualRate: 74, diff: -301, devPct: -80.31, actualProg: 2.31, planProg: 11.48, delay: 404, endDate: '30.Oca.28' },
+          { date: '21.09.2026', targetRate: 394, actualRate: 94, diff: -300, devPct: -76.17, actualProg: 4.04, planProg: 17.21, delay: 296, endDate: '15.Eki.27' },
+          { date: '28.09.2026', targetRate: 399, actualRate: 91, diff: -225, devPct: -71.15, actualProg: 7.37, planProg: 22.95, delay: 213, endDate: '24.Tem.27' },
+          { date: '12.10.2026', targetRate: 337, actualRate: 266, diff: -71, devPct: -20.98, actualProg: 16.23, planProg: 34.43, delay: 19, endDate: '12.Oca.27' }
+        ]
+      },
+      {
+        id: 4,
+        name: "İSTİNAT DUVARI YOL-PARSEL",
+        unit: "m³",
+        history: [
+          { date: '07.09.2026', targetRate: 402, actualRate: 250, diff: -152, devPct: -37.86, actualProg: 4.32, planProg: 6.25, delay: 59, endDate: '09.Şub.27' },
+          { date: '14.09.2026', targetRate: 409, actualRate: 279, diff: -130, devPct: -31.76, actualProg: 9.14, planProg: 12.50, delay: 42, endDate: '23.Oca.27' },
+          { date: '21.09.2026', targetRate: 419, actualRate: 252, diff: -166, devPct: -39.74, actualProg: 13.51, planProg: 18.75, delay: 55, endDate: '06.Şub.27' },
+          { date: '28.09.2026', targetRate: 351, actualRate: 317, diff: -49, devPct: -12.19, actualProg: 20.46, planProg: 25.00, delay: 11, endDate: '24.Ara.26' },
+          { date: '12.10.2026', targetRate: 416, actualRate: 183, diff: -233, devPct: -56.06, actualProg: 30.96, planProg: 37.50, delay: 82, endDate: '07.Mar.27' }
+        ]
+      },
+      {
+        id: 5,
+        name: "TOPRAKARME PANEL ÜRETİM",
+        unit: "m²",
+        history: [
+          { date: '07.09.2026', targetRate: 381, actualRate: 71, diff: -310, devPct: -81.26, actualProg: 1.39, planProg: 6.48, delay: 402, endDate: '14.Oca.28' },
+          { date: '14.09.2026', targetRate: 403, actualRate: 80, diff: -323, devPct: -80.03, actualProg: 2.97, planProg: 12.96, delay: 346, endDate: '20.Kas.27' },
+          { date: '21.09.2026', targetRate: 425, actualRate: 117, diff: -308, devPct: -72.43, actualProg: 5.26, planProg: 19.44, delay: 210, endDate: '07.Tem.27' },
+          { date: '28.09.2026', targetRate: 450, actualRate: 129, diff: -321, devPct: -71.36, actualProg: 7.77, planProg: 25.93, delay: 183, endDate: '11.Haz.27' },
+          { date: '12.10.2026', targetRate: 510, actualRate: 165, diff: -345, devPct: -67.65, actualProg: 13.83, planProg: 38.89, delay: 127, endDate: '17.Nis.27' }
+        ]
+      },
+      {
+        id: 6,
+        name: "TOPRAKARME DUVAR İMALATLARI",
+        unit: "m²",
+        history: [
+          { date: '07.09.2026', targetRate: 4832, actualRate: 555, diff: -4277, devPct: -88.51, actualProg: 0.76, planProg: 5.74, delay: 814, endDate: '14.Mar.29' },
+          { date: '14.09.2026', targetRate: 5118, actualRate: 396, diff: -4721, devPct: -92.26, actualProg: 1.30, planProg: 11.48, delay: 1182, endDate: '17.Mar.30' },
+          { date: '21.09.2026', targetRate: 5455, actualRate: 225, diff: -5230, devPct: -95.88, actualProg: 1.60, planProg: 17.21, delay: 2155, endDate: '16.Kas.32' },
+          { date: '28.09.2026', targetRate: 5846, actualRate: 186, diff: -5660, devPct: -96.81, actualProg: 1.86, planProg: 22.95, delay: 2620, endDate: '24.Şub.34' },
+          { date: '12.10.2026', targetRate: 6365, actualRate: 842, diff: -5523, devPct: -86.77, actualProg: 4.53, planProg: 34.43, delay: 482, endDate: '19.Nis.28' }
+        ]
+      },
+      {
+        id: 7,
+        name: "İÇ.SUYU HATTI PE BORU ŞEB. İMALATLARI",
+        unit: "mt",
+        history: [
+          { date: '07.09.2026', targetRate: 152, actualRate: 20, diff: -131, devPct: -86.61, actualProg: 0.92, planProg: 5.98, delay: 653, endDate: '30.Eyl.28' },
+          { date: '14.09.2026', targetRate: 157, actualRate: 0, diff: -157, devPct: -100.0, actualProg: 0.95, planProg: 11.97, delay: 720, endDate: '30.Eyl.28' },
+          { date: '21.09.2026', targetRate: 164, actualRate: 31, diff: -133, devPct: -80.97, actualProg: 2.44, planProg: 17.95, delay: 375, endDate: '28.Ara.27' },
+          { date: '28.09.2026', targetRate: 177, actualRate: 0, diff: -177, devPct: -100.0, actualProg: 2.44, planProg: 23.93, delay: 450, endDate: '28.Ara.27' },
+          { date: '12.10.2026', targetRate: 187, actualRate: 5, diff: -182, devPct: -97.33, actualProg: 8.08, planProg: 35.90, delay: 2507, endDate: '30.Eki.33' }
+        ]
+      },
+      {
+        id: 9,
+        name: "ATIKSU HATTI İMALATI (Boru+Mhol)",
+        unit: "mt",
+        history: [
+          { date: '07.09.2026', targetRate: 73, actualRate: 61, diff: -12, devPct: -16.92, actualProg: 5.45, planProg: 5.98, delay: 21, endDate: '06.Oca.27' },
+          { date: '14.09.2026', targetRate: 74, actualRate: 59, diff: -15, devPct: -20.02, actualProg: 10.73, planProg: 11.97, delay: 24, endDate: '10.Oca.27' },
+          { date: '21.09.2026', targetRate: 76, actualRate: 45, diff: -30, devPct: -40.06, actualProg: 14.79, planProg: 17.95, delay: 59, endDate: '15.Şub.27' },
+          { date: '28.09.2026', targetRate: 79, actualRate: 33, diff: -46, devPct: -57.96, actualProg: 17.75, planProg: 23.93, delay: 113, endDate: '10.Nis.27' },
+          { date: '12.10.2026', targetRate: 83, actualRate: 62, diff: -22, devPct: -26.03, actualProg: 26.66, planProg: 35.90, delay: 24, endDate: '13.Oca.27' }
+        ]
+      },
+      {
+        id: 11,
+        name: "YAĞM.SUYU HATTI İMALATI (Boru+Mhol)",
+        unit: "mt",
+        history: [
+          { date: '07.09.2026', targetRate: 115, actualRate: 25, diff: -90, devPct: -78.37, actualProg: 1.48, planProg: 5.98, delay: 366, endDate: '17.Ara.27' },
+          { date: '14.09.2026', targetRate: 119, actualRate: 50, diff: -69, devPct: -57.87, actualProg: 4.46, planProg: 11.97, delay: 130, endDate: '26.Nis.27' },
+          { date: '21.09.2026', targetRate: 126, actualRate: 28, diff: -98, devPct: -77.63, actualProg: 6.12, planProg: 17.95, delay: 306, endDate: '20.Eki.27' },
+          { date: '28.09.2026', targetRate: 129, actualRate: 74, diff: -56, devPct: -42.92, actualProg: 10.50, planProg: 23.93, delay: 61, endDate: '18.Şub.27' },
+          { date: '12.10.2026', targetRate: 137, actualRate: 88, diff: -49, devPct: -35.65, actualProg: 20.42, planProg: 35.90, delay: 38, endDate: '26.Oca.27' }
+        ]
+      },
+      {
+        id: 16,
+        name: "ELEKTRİK HATTI İMALATI (BORUL. MENHOL)",
+        unit: "mt",
+        history: [
+          { date: '07.09.2026', targetRate: 196, actualRate: 48, diff: -148, devPct: -75.45, actualProg: 1.67, planProg: 5.98, delay: 310, endDate: '23.Eki.27' },
+          { date: '14.09.2026', targetRate: 208, actualRate: 21, diff: -186, devPct: -89.69, actualProg: 2.42, planProg: 11.97, delay: 823, endDate: '19.Mar.29' },
+          { date: '21.09.2026', targetRate: 214, actualRate: 114, diff: -100, devPct: -46.93, actualProg: 6.36, planProg: 17.95, delay: 78, endDate: '06.Mar.27' },
+          { date: '28.09.2026', targetRate: 220, actualRate: 132, diff: -88, devPct: -39.94, actualProg: 10.95, planProg: 23.93, delay: 54, endDate: '11.Şub.27' },
+          { date: '12.10.2026', targetRate: 243, actualRate: 91, diff: -152, devPct: -62.40, actualProg: 16.88, planProg: 35.90, delay: 114, endDate: '13.Nis.27' }
+        ]
+      }
+    ];
+
     function fmtTL(val) {
       return new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val) + " TL";
     }
@@ -831,7 +1174,7 @@
       document.getElementById('headerMainTitle').innerText = '7. Kısım Genişleme Sahası - Müşavir';
     }
 
-    // 1. Yüklenici Hakediş Dashboard Açılışı
+    // 1. Yüklenici Hakediş Dashboard
     let hakedisChartsInitialized = false;
     let trendChart = null, pieChart = null;
 
@@ -848,7 +1191,7 @@
       onHakedisChange(28);
     }
 
-    // 2. Müşavir Hakediş Dashboard Açılışı
+    // 2. Müşavir Hakediş Dashboard
     let musavirChartsInitialized = false;
     let musavirTrendChart = null, musavirPieChart = null;
 
@@ -865,11 +1208,35 @@
       onMusavirHakedisChange(41);
     }
 
-    // 3. İlerleme Raporları PDF Listesi Açılışı
+    // 3. İlerleme Raporları Bölümü
+    let itemAnalysisInitialized = false;
+
     function showIlerlemeReportsView() {
       hideAllViews();
       document.getElementById('ilerlemeReportsView').style.display = 'flex';
       document.getElementById('headerMainTitle').innerText = '7. Kısım Genişleme Sahası - İlerleme Raporları';
+      
+      if (!itemAnalysisInitialized) {
+        initItemAnalysisUI();
+        itemAnalysisInitialized = true;
+      }
+      renderItemAnalysisDashboard();
+    }
+
+    // Sekme Değiştirici (Analiz Paneli vs PDF Arşivi)
+    function switchIlerlemeTab(tab) {
+      if (tab === 'analysis') {
+        document.getElementById('tabBtnAnalysis').classList.add('active');
+        document.getElementById('tabBtnPdfs').classList.remove('active');
+        document.getElementById('ilerlemeAnalysisSection').style.display = 'flex';
+        document.getElementById('ilerlemePdfsSection').style.display = 'none';
+        renderItemAnalysisDashboard();
+      } else {
+        document.getElementById('tabBtnAnalysis').classList.remove('active');
+        document.getElementById('tabBtnPdfs').classList.add('active');
+        document.getElementById('ilerlemeAnalysisSection').style.display = 'none';
+        document.getElementById('ilerlemePdfsSection').style.display = 'flex';
+      }
     }
 
     // --- Yüklenici Hakediş Fonksiyonları ---
@@ -922,7 +1289,11 @@
               onHakedisChange(selectedHk);
             }
           },
-          plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtTL(ctx.raw) } } },
+          plugins: { 
+            legend: { position: 'top' }, 
+            tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtTL(ctx.raw) } },
+            datalabels: { display: false } // Hakediş grafiğinde datalabel gizli
+          },
           scales: { x: { grid: { display: false } }, y: { ticks: { callback: v => (v / 1e6).toFixed(0) + 'M' } } }
         }
       });
@@ -937,7 +1308,11 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: ctx => ctx.label + ': ' + fmtTL(ctx.raw) } } },
+          plugins: { 
+            legend: { position: 'bottom' }, 
+            tooltip: { callbacks: { label: ctx => ctx.label + ': ' + fmtTL(ctx.raw) } },
+            datalabels: { display: false }
+          },
           cutout: '65%'
         }
       });
@@ -1026,7 +1401,11 @@
               onMusavirHakedisChange(selectedHk);
             }
           },
-          plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtTL(ctx.raw) } } },
+          plugins: { 
+            legend: { position: 'top' }, 
+            tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtTL(ctx.raw) } },
+            datalabels: { display: false }
+          },
           scales: { x: { grid: { display: false } }, y: { ticks: { callback: v => (v / 1e6).toFixed(1) + 'M' } } }
         }
       });
@@ -1041,7 +1420,11 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: ctx => ctx.label + ': ' + fmtTL(ctx.raw) } } },
+          plugins: { 
+            legend: { position: 'bottom' }, 
+            tooltip: { callbacks: { label: ctx => ctx.label + ': ' + fmtTL(ctx.raw) } },
+            datalabels: { display: false }
+          },
           cutout: '65%'
         }
       });
@@ -1049,19 +1432,16 @@
 
     function onMusavirHakedisChange(hkNo) {
       const selected = musavirHakedisData.find(d => d.no == hkNo) || musavirHakedisData[musavirHakedisData.length - 1];
-      
       let kumFF = 0, kumNet = 0;
       musavirHakedisData.filter(d => d.no <= selected.no).forEach(d => { 
         kumFF += d.donemFF; 
         kumNet += d.net; 
       });
 
-      // Kümülatif Üst Çubuk
       document.getElementById('topMusavirKumHk').innerText = fmtTL(selected.kumHk);
       document.getElementById('topMusavirKumFF').innerText = fmtTL(kumFF);
       document.getElementById('topMusavirKumNet').innerText = fmtTL(kumNet);
 
-      // KPI Kartları
       document.getElementById('kpiMusavirBaz').innerText = fmtTL(selected.ayHk);
       document.getElementById('kpiMusavirKumHk').innerText = `Kümülatif Hakediş: ${fmtTL(selected.kumHk)}`;
       document.getElementById('kpiMusavirFF').innerText = fmtTL(selected.donemFF);
@@ -1084,6 +1464,270 @@
         activeRow.classList.add('selected-row');
         activeRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
+    }
+
+    // --- YENİ EKLENEN İMALAT ANALİZ DASHBOARD MANTIĞI ---
+    let officialDailyChartInstance = null;
+    let officialCumChartInstance = null;
+
+    function initItemAnalysisUI() {
+      const selectElem = document.getElementById('itemSelect');
+      selectElem.innerHTML = '';
+      itemsPerformanceData.forEach((item, idx) => {
+        const opt = document.createElement('option');
+        opt.value = idx;
+        opt.textContent = `${item.id}. ${item.name}`;
+        if (item.id === 16) opt.selected = true; // Varsayılan: Elektrik Hattı
+        selectElem.appendChild(opt);
+      });
+    }
+
+    function renderItemAnalysisDashboard() {
+      const selectElem = document.getElementById('itemSelect');
+      if (!selectElem || !selectElem.value) return;
+      const item = itemsPerformanceData[selectElem.value];
+
+      // 1. Üst Tablo Doldurma
+      const tbody = document.querySelector('#itemHistoryTable tbody');
+      tbody.innerHTML = '';
+      item.history.forEach(row => {
+        const tr = document.createElement('tr');
+        const isPositive = row.diff >= 0;
+        tr.innerHTML = `
+          <td><strong>${row.date}</strong></td>
+          <td>${row.targetRate.toLocaleString('tr-TR')} ${item.unit}</td>
+          <td>${row.actualRate.toLocaleString('tr-TR')} ${item.unit}</td>
+          <td><span class="${isPositive ? 'badge-green' : 'badge-red'}">${isPositive ? '+' : ''}${row.diff.toLocaleString('tr-TR')}</span></td>
+          <td><span class="${isPositive ? 'badge-green' : 'badge-red'}">%${row.devPct.toFixed(2)}</span></td>
+          <td>%${row.actualProg.toFixed(2)}</td>
+          <td>%${row.planProg.toFixed(2)}</td>
+          <td>${row.delay > 0 ? '+' + row.delay + ' Gün' : row.delay + ' Gün'}</td>
+          <td><strong>${row.endDate}</strong></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Grafik Dizi Verileri
+      const actualRates = item.history.map(h => h.actualRate);
+      const targetRates = item.history.map(h => h.targetRate);
+      const devPcts = item.history.map(h => h.devPct);
+      const actualProgs = item.history.map(h => h.actualProg);
+      const planProgs = item.history.map(h => h.planProg);
+      const cumDevPcts = item.history.map(h => +(h.actualProg - h.planProg).toFixed(2));
+
+      const commonOfficialScales = (yMax) => ({
+        x: {
+          grid: { display: false },
+          ticks: { font: { size: 11.5, weight: '600' }, color: '#334155' }
+        },
+        y: {
+          grid: { color: '#f1f5f9' },
+          ticks: { display: false },
+          border: { display: false },
+          suggestedMax: yMax * 1.35
+        },
+        y1: {
+          type: 'linear',
+          position: 'right',
+          grid: { display: false },
+          ticks: { display: false },
+          suggestedMin: -110,
+          suggestedMax: 40
+        }
+      });
+
+      // 2. Günlük Hızlar Grafiği (Mavi Bar, Gri Bar, Kırmızı Çizgi, Sarı Etiket)
+      if (officialDailyChartInstance) officialDailyChartInstance.destroy();
+      const maxDaily = Math.max(...targetRates, ...actualRates);
+      const ctx1 = document.getElementById('officialDailyChart').getContext('2d');
+      officialDailyChartInstance = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: itemReportDates,
+          datasets: [
+            {
+              type: 'bar',
+              label: 'Gerçekleşen Günlük  (Haftalık Ort.)',
+              data: actualRates,
+              backgroundColor: '#3b82f6',
+              barPercentage: 0.45,
+              categoryPercentage: 0.55,
+              order: 2,
+              datalabels: {
+                display: true,
+                anchor: 'end',
+                align: 'top',
+                rotation: -90,
+                offset: 8,
+                font: { size: 11, weight: 'bold' },
+                color: (ctx) => ctx.dataIndex === itemReportDates.length - 1 ? '#991b1b' : '#1e293b',
+                formatter: (val) => val.toLocaleString('tr-TR')
+              }
+            },
+            {
+              type: 'bar',
+              label: 'Planlanan Günlük (Hedeflenen Net )',
+              data: targetRates,
+              backgroundColor: '#78716c',
+              barPercentage: 0.45,
+              categoryPercentage: 0.55,
+              order: 3,
+              datalabels: {
+                display: true,
+                anchor: 'end',
+                align: 'top',
+                rotation: -90,
+                offset: 8,
+                font: { size: 11, weight: '500' },
+                color: '#1e293b',
+                formatter: (val) => val.toLocaleString('tr-TR')
+              }
+            },
+            {
+              type: 'line',
+              label: 'Günlük Plan-Gerçk  Sapma Yüzde %',
+              data: devPcts,
+              borderColor: '#dc2626',
+              borderWidth: 2,
+              pointBackgroundColor: '#dc2626',
+              pointRadius: 4,
+              yAxisID: 'y1',
+              order: 1,
+              datalabels: {
+                display: true,
+                anchor: 'center',
+                align: 'bottom',
+                offset: 12,
+                backgroundColor: '#fef3c7',
+                borderColor: '#fde68a',
+                borderWidth: 1,
+                borderRadius: 3,
+                padding: { top: 3, bottom: 3, left: 6, right: 6 },
+                font: { size: 10.5, weight: 'bold' },
+                color: '#0f172a',
+                formatter: (val, ctx) => {
+                  const diffVal = item.history[ctx.dataIndex].diff;
+                  return `${diffVal > 0 ? '+' : ''}${diffVal.toLocaleString('tr-TR')}\n%${val.toFixed(2)}`;
+                },
+                textAlign: 'center'
+              }
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                boxWidth: 14,
+                boxHeight: 8,
+                font: { size: 11, weight: 'bold' },
+                color: '#1e293b',
+                usePointStyle: false
+              }
+            },
+            tooltip: { enabled: false }
+          },
+          scales: commonOfficialScales(maxDaily)
+        }
+      });
+
+      // 3. Kümülatif İlerleme Grafiği (Yeşil Bar, Gri Bar, Kırmızı Çizgi, Sarı Etiket)
+      if (officialCumChartInstance) officialCumChartInstance.destroy();
+      const maxCum = Math.max(...planProgs, ...actualProgs);
+      const ctx2 = document.getElementById('officialCumChart').getContext('2d');
+      officialCumChartInstance = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: itemReportDates,
+          datasets: [
+            {
+              type: 'bar',
+              label: 'Gerçekleşen Kümülatif  (Haftalık Top)',
+              data: actualProgs,
+              backgroundColor: '#10b981',
+              barPercentage: 0.45,
+              categoryPercentage: 0.55,
+              order: 2,
+              datalabels: {
+                display: true,
+                anchor: 'end',
+                align: 'top',
+                rotation: -90,
+                offset: 8,
+                font: { size: 11, weight: 'bold' },
+                color: (ctx) => ctx.dataIndex === itemReportDates.length - 1 ? '#991b1b' : '#1e293b',
+                formatter: (val) => `%${val.toFixed(2)}`
+              }
+            },
+            {
+              type: 'bar',
+              label: 'Planlanan Kümülatif (Hedeflenen Top)',
+              data: planProgs,
+              backgroundColor: '#78716c',
+              barPercentage: 0.45,
+              categoryPercentage: 0.55,
+              order: 3,
+              datalabels: {
+                display: true,
+                anchor: 'end',
+                align: 'top',
+                rotation: -90,
+                offset: 8,
+                font: { size: 11, weight: '500' },
+                color: (ctx) => ctx.dataIndex === itemReportDates.length - 1 ? '#1e3a8a' : '#1e293b',
+                formatter: (val) => `%${val.toFixed(2)}`
+              }
+            },
+            {
+              type: 'line',
+              label: 'Kümülatif Plan-Gerçk  Sapma Yüzde %',
+              data: cumDevPcts,
+              borderColor: '#dc2626',
+              borderWidth: 2,
+              pointBackgroundColor: '#dc2626',
+              pointRadius: 4,
+              yAxisID: 'y1',
+              order: 1,
+              datalabels: {
+                display: true,
+                anchor: 'center',
+                align: 'bottom',
+                offset: 12,
+                backgroundColor: '#fef3c7',
+                borderColor: '#fde68a',
+                borderWidth: 1,
+                borderRadius: 3,
+                padding: { top: 3, bottom: 3, left: 6, right: 6 },
+                font: { size: 10.5, weight: 'bold' },
+                color: '#0f172a',
+                formatter: (val) => `Sapma\n%${val.toFixed(2)}`,
+                textAlign: 'center'
+              }
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                boxWidth: 14,
+                boxHeight: 8,
+                font: { size: 11, weight: 'bold' },
+                color: '#1e293b',
+                usePointStyle: false
+              }
+            },
+            tooltip: { enabled: false }
+          },
+          scales: commonOfficialScales(maxCum)
+        }
+      });
     }
 
     // PDF Görüntüleyici
